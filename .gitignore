@@ -1,0 +1,14 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Virtual envs
+.venv/
+env/
+venv/
+
+# OS cruft
+.DS_Store
+
+# Transformers cache (optional; comment out if you want to keep model downloads)
+~/.cache/huggingface/
