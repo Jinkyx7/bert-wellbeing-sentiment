@@ -30,6 +30,7 @@ Outputs mirror the input CSV plus two columns:
 
 - `sentiment_label`
 - `sentiment_score` (confidence for the predicted label)
+- `specificity` (same confidence value as `sentiment_score`)
 
 ## Notes
 

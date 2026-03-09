@@ -101,7 +101,12 @@ def score_sentences(
     batch_size: int,
 ) -> List[Tuple[str, float]]:
     # The classifier can batch internally; we still request a batch_size for memory control.
-    outputs = classifier(list(sentences), batch_size=batch_size, truncation=True)
+    outputs = classifier(
+        list(sentences),
+        batch_size=batch_size,
+        truncation=True,
+        max_length=512,
+    )
     return [(out["label"], float(out["score"])) for out in outputs]
 
 
@@ -125,13 +130,16 @@ def process_file(
     if len(texts) == 0:
         df["sentiment_label"] = None
         df["sentiment_score"] = None
+        df["specificity"] = None
     else:
         labels_scores = score_sentences(texts, classifier, batch_size)
         labels, scores = zip(*labels_scores)
         df["sentiment_label"] = None
         df["sentiment_score"] = None
+        df["specificity"] = None
         df.loc[mask, "sentiment_label"] = labels
         df.loc[mask, "sentiment_score"] = scores
+        df.loc[mask, "specificity"] = scores
 
     output_path = resolve_output_path(input_path, output_dir, suffix, overwrite)
     df.to_csv(output_path, index=False)
